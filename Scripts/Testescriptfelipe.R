@@ -1,3 +1,9 @@
+#Teste inicial de uso do script
+#Felipe Mello - 30/04/2021
+library(devtools)
+library(Rocc)
+
+
 lista <- read_excel(file=file.choose())
 lista=read.table(file=file.choose())
 lista=read_excel("REGUA")
