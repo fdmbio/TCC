@@ -20,3 +20,5 @@ View(spp)
 View(REGUA)
 
 spp=c(especies)
+
+#Teste2
