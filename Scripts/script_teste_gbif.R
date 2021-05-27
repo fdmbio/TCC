@@ -35,11 +35,11 @@ pwd <- "biologi@13" # your gbif.org password
 email <- "fdiasmello.bio@gmail.com" # your email
 
 #############################################################################
-oc <- read.csv("./Dados/spp_lista.csv", sep = ';')
+oc <- read.csv("./Dados/spp_lista.csv", sep = ',')
 names(oc)
 
 gbif_taxon_keys <-
-  read.csv("./Dados/spp_lista.csv", sep = ';') %>% #For an file with a list of spp names
+  read.csv("./Dados/spp_lista.csv", sep = ',') %>% #For an file with a list of spp names
   pull(ï..spp) %>% #Specify the column from the list
   taxize::get_gbifid_(method="backbone") %>% # match names to the GBIF backbone to get taxonkeys
   imap(~ .x %>% mutate(original_sciname = .y)) %>% # add original name back into data.frame
@@ -89,5 +89,34 @@ lista2 <- bind_rows(records_list)
 
 ############### Write table
 
-write.csv(lista_2, "final_2.csv", row.names = FALSE)
+write.csv(lista2, "final_2.csv", row.names = FALSE)
+
+#Tentativa Final
+
+gbif_taxon_keys <- 
+  read.csv("./Dados/spp_lista.csv") %>% 
+  pull("ï..spp") %>% # use fewer names if you want to just test 
+  taxize::get_gbifid_(method="backbone") %>% # match names to the GBIF backbone to get taxonkeys
+  imap(~ .x %>% mutate(original_sciname = .y)) %>% # add original name back into data.frame
+  bind_rows() %T>% # combine all data.frames into one
+  readr::write_tsv(file = "all_matches.tsv") %>% # save as side effect for you to inspect if you want
+  filter(matchtype == "EXACT" & status == "ACCEPTED") %>% # get only accepted and matched names
+  pull(usagekey) # get the gbif taxonkeys
+
+ocorr<- occ_download(
+  pred_in("taxonKey", gbif_taxon_keys),
+  pred_in("basisOfRecord", c('PRESERVED_SPECIMEN')),
+  #pred("geometry","POLYGON((-43.86 -17.57, -43.88 -21.49, -39.79 -19.86, -39.46 -17.98, -43.86
+  #     -17.57))"),
+  pred("country", "BR"),
+  #pred("continent", "South America"),
+  pred("hasCoordinate", TRUE),
+  pred("hasGeospatialIssue", FALSE),
+  pred_gte("year", 2000),
+  format = "SIMPLE_CSV",
+  user=user,pwd=pwd,email=email
+)
+ 
+
+#BOAAA
 
