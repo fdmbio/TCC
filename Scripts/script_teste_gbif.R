@@ -90,6 +90,7 @@ lista2 <- bind_rows(records_list)
 ############### Write table
 
 write.csv(lista2, "final_2.csv", row.names = FALSE)
+<<<<<<< HEAD
 
 #Tentativa Final
 
@@ -118,5 +119,5 @@ ocorr<- occ_download(
 )
  
 
-#BOAAA
+#BOAA 
 
