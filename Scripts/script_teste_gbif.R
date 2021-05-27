@@ -89,5 +89,5 @@ lista2 <- bind_rows(records_list)
 
 ############### Write table
 
-write.csv(lista_2, "final_2.csv", row.names = FALSE)
+write.csv(lista2, "final_2.csv", row.names = FALSE)
 
