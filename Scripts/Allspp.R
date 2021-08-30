@@ -30,9 +30,9 @@ library(taxize)
 
 # fill in your gbif.org credentials. You need to create an account at gbif if you don't have it.
 
-user <- "felipedm_" # your gbif.org username
-pwd <- "biologi@13" # your gbif.org password
-email <- "fdiasmello.bio@gmail.com" # your email
+user <- "" # your gbif.org username
+pwd <- "" # your gbif.org password
+email <- "" # your email
 
 ############################################################################# APENAS TUTORIAL NAO USAR
 oc <- read.csv("./Dados/spp_lista_ALL.csv", sep = ',')
@@ -42,24 +42,24 @@ names(oc)
 
 #Todas as listas
 
-gbif_taxon_keys <- 
-  read.csv("./Dados/spp_lista_ALL.csv") %>% 
-  pull("ï..spp") %>% # use fewer names if you want to just test 
-  taxize::get_gbifid_(method="backbone") %>% # match names to the GBIF backbone to get taxonkeys
-  imap(~ .x %>% mutate(original_sciname = .y)) %>% # add original name back into data.frame
-  bind_rows() %T>% # combine all data.frames into one
-  readr::write_tsv(file = "allmatches2.tsv") %>% # save as side effect for you to inspect if you want
-  filter(matchtype == "EXACT" & status == "ACCEPTED") %>% # get only accepted and matched names
-  pull(usagekey) # get the gbif taxonkeys
+#gbif_taxon_keys <- 
+ # read.csv("./Dados/spp_lista_ALL.csv") %>% 
+  #pull("ï..spp") %>% # use fewer names if you want to just test 
+  #taxize::get_gbifid_(method="backbone") %>% # match names to the GBIF backbone to get taxonkeys
+  #imap(~ .x %>% mutate(original_sciname = .y)) %>% # add original name back into data.frame
+  #bind_rows() %T>% # combine all data.frames into one
+  #readr::write_tsv(file = "allmatches2.tsv") %>% # save as side effect for you to inspect if you want
+  #filter(matchtype == "EXACT" & status == "ACCEPTED") %>% # get only accepted and matched names
+  #pull(usagekey) # get the gbif taxonkeys
 
 
 
 
 ocorr<- occ_download(
-  pred_in("taxonKey", gbif_taxon_keys),
-  pred_in("basisOfRecord", c('PRESERVED_SPECIMEN','HUMAN_OBSERVATION','MACHINE_OBSERVATION','LITERATURE')),
+  pred_in("taxonKey", 212),
+  pred_in("basisOfRecord", c('PRESERVED_SPECIMEN','HUMAN_OBSERVATION','MACHINE_OBSERVATION','LITERATURE','OBSERVATION')),
   pred("geometry","POLYGON((-42.245 -22.248,-43.361 -22.248,-43.361 -23.027,-42.245 -23.027,-42.245 -22.248))"),
-  pred("country", "BR"),
+  #pred("country", "BR"),
   #pred("continent", "South America"),
   pred("hasCoordinate", TRUE),
   pred("hasGeospatialIssue", FALSE),
