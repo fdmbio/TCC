@@ -36,7 +36,7 @@ email <- "" # your email
 
 ############################################################################# APENAS TUTORIAL NAO USAR
 oc <- read.csv("./Dados/spp_lista_ALL.csv", sep = ',')
-names(oc)
+names(oc)  
 
 
 
